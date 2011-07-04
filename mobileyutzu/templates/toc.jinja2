@@ -1,0 +1,24 @@
+{% extends "templates/home.jinja2" %}
+
+{% block subtitle %}
+Table of Contents
+{% endblock %}
+
+{% block content %}
+
+<!--
+<div itemscope data-properties="self">
+  <h1 itemprop="title">
+    <a href="{{ toc }}" itemprop="url">{{ title }}</a>
+  </h1>
+</div>
+-->
+
+{% for tool in tools %}
+<div itemscope>
+  <h3 itemprop="title"><a href="{{ tool.url }}" itemprop="url">{{ tool.label|capitalize }}</a></h3>
+  <p itemprop="byline">~ {{ tool.value|string|wordcount }} words</p>
+</div>
+{% endfor %}
+
+{% endblock %}

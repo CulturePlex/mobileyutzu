@@ -1,0 +1,27 @@
+{% extends "templates/home.jinja2" %}
+{% block content %}
+<p>
+{% if tool == "links" %}
+    {% for object in document.objects %}
+        {% for link in object.links %}
+            {{ link }}
+        {% endfor %}
+    {% endfor %}
+{% elif tool == "pictures" %}
+    {% for object in document.objects %}
+        {% for image in object.images_object %}
+            {{ image }}
+        {% endfor %}
+    {% endfor %}
+{% elif tool == "social" %}
+    {% for object in document.objects %}
+        {% for message in object.results %}
+            <div><img src="{{ message.profile_image_url }}"><span><a href="http://twitter.com/{{ message.from_user }}">@{{ message.from_user }}</a>{% if message.to_user %} (in response to <a href="http://twitter.com/{{ message.to_user }}">@{{ message.to_user }}</a>) {% endif %}: {{ message.text }}<span></div></p><p>
+        {% endfor %}
+    {% endfor %}
+{% else %}
+    {{ document|safe }}
+{% endif %}
+</p>
+{% endblock %}
+
