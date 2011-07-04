@@ -1,10 +1,16 @@
-{% extends "templates/home.jinja2" %}
+{% extends "templates/document.jinja2" %}
 {% block content %}
 <p>
 {% if tool == "links" %}
     {% for object in document.objects %}
         {% for link in object.links %}
             {{ link }}
+        {% endfor %}
+    {% endfor %}
+{% elif tool == "attachments" %}
+    {% for object in document.objects %}
+        {% for file in object.files %}
+            {{ file }}
         {% endfor %}
     {% endfor %}
 {% elif tool == "pictures" %}
@@ -16,13 +22,52 @@
 {% elif tool == "social" %}
     {% for object in document.objects %}
         {% for message in object.results %}
-            <div><img src="{{ message.profile_image_url }}"><span><a href="http://twitter.com/{{ message.from_user }}">@{{ message.from_user }}</a>{% if message.to_user %} (<em>in response to <a href="http://twitter.com/{{ message.to_user }}">@{{ message.to_user }}</a></em>) {% endif %}: {{ message.text }}<span></div></p><p>
+            <div>
+                <img src="{{ message.profile_image_url }}"><br/>
+                <span>
+                    <a href="http://twitter.com/{{ message.from_user }}">@{{ message.from_user }}</a>
+                    {% if message.to_user %}
+                        (<em>in response to <a href="http://twitter.com/{{ message.to_user }}">@{{ message.to_user }}</a></em>)
+                    {% endif %}: {{ message.text }}
+                <span>
+            </div></p><p>
         {% endfor %}
     {% endfor %}
 {% elif tool == "videos" %}
     {% for object in document.objects %}
         {% for video in object.videos %}
-            <div><a href="{{ video.url }}"><img src="{{ video.thumbnail }}"></a><span><strong>{{ video.title }}</strong>. {{ video.description }}<span></div></p><p>
+            <div>
+                <a href="{{ video.url }}"><img src="{{ video.thumbnail }}"></a><br/>
+                <span>
+                    <strong>{{ video.title }}</strong>.
+                    {{ video.description }}
+                <span>
+            </div></p><p>
+        {% endfor %}
+    {% endfor %}
+{% elif tool == "ypad" %}
+    {% for object in document.objects %}
+        {{ object }}
+        {% for ypad in object.ypad %}
+            <div>
+                <a href="{{ ypad.link }}">
+                    <span>
+                        {{ ypad.name }}
+                    <span>
+                </a>
+            </div></p><p>
+        {% endfor %}
+    {% endfor %}
+{% elif tool == "slides" %}
+    {% for object in document.objects %}
+        {% for slide in object.slides %}
+            <div>
+                <a href="{{ slide.url }}"><img src="{{ slide.thumbnail }}"></a><br/>
+                <span>
+                    <strong>{{ slide.title }}</strong>.
+                    {{ slide.description }}
+                <span>
+            </div></p><p>
         {% endfor %}
     {% endfor %}
 {% else %}
