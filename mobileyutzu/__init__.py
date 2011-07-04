@@ -1,4 +1,8 @@
+import string
+from random import sample, choice
+
 from pyramid.config import Configurator
+from pyramid.session import UnencryptedCookieSessionFactoryConfig
 from sqlalchemy import engine_from_config
 from webob.exc import HTTPException
 
@@ -6,12 +10,21 @@ from client import TOOLS
 from mobileyutzu.models import initialize_sql
 
 
+def secret_key(length=128):
+    chars = string.letters + string.digits
+    return ''.join(choice(chars) for _ in xrange(length)) # way 4; 1.73 seconds
+
+
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
     engine = engine_from_config(settings, 'sqlalchemy.')
     initialize_sql(engine)
-    config = Configurator(settings=settings)
+    # session factory
+    session_factory = UnencryptedCookieSessionFactoryConfig(secret_key())
+    # configuration setup
+    config = Configurator(settings=settings, session_factory=session_factory)
+    # routes setup
     config.include('pyramid_jinja2')
     config.add_static_view('static', 'mobileyutzu:static')
     config.add_route('home', '/',

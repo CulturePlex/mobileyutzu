@@ -7,11 +7,13 @@ from client import Client, TOOLS
 
 def home(request):
     results = None
-    q = ""
-    if request.GET and "q" in request.GET:
-        q = request.GET["q"]
+    q = request.session.get("q", "")
+    if q or (request.GET and "q" in request.GET):
+        q = request.GET.get("q", "") or q
         client = Client()
         results = client.search(q)
+        if results:
+            request.session.update({"q": q})
     return {'project': 'mobileyutzu',
             'title': "Mobile Yutzu",
             'subtitle': "Search a yutzu",
@@ -29,9 +31,6 @@ def document(request):
 
 def entity(request):
     identifier = request.matchdict["id"]
-    back_url = None
-    if request.GET and "q" in request.GET:
-        back_url = "/?q=%s" % request.GET["q"]
     resources_url = route_url('resources', request, **request.matchdict)
     toc_url = route_url('toc', request, **request.matchdict)
     client = Client()
@@ -45,8 +44,7 @@ def entity(request):
                 'toc': toc_url,
                 'title': title,
                 'subtitle': subtitle,
-                'document': document,
-                'back_url': back_url}
+                'document': document}
     else:
         raise HTTPFound(location='/')
 
