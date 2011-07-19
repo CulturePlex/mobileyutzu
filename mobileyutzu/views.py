@@ -50,7 +50,13 @@ def entity(request):
 
 
 def resources(request):
-    return {'project': 'mobileyutzu'}
+    resources_url = route_url('resources', request, **request.matchdict)
+    toc_url = route_url('toc', request, **request.matchdict)
+    return {
+        'project': 'mobileyutzu',
+        'resources': resources_url,
+        'toc': toc_url,
+    }
 
 
 def toc(request):
@@ -69,20 +75,24 @@ def toc(request):
                 "value": getattr(client, tool_name)(),
                 "url": route_url(tool_name, request, **request.matchdict),
             })
+    resources_url = route_url('resources', request, **request.matchdict)
     toc_url = route_url('toc', request, **request.matchdict)
-    return {
-        'project': 'mobileyutzu',
-        'title': client.entity()["title"],
-        'toc': toc_url,
-        'tools': tools_dicts,
-    }
+    return {'project': 'mobileyutzu',
+            'title': client.entity()["title"],
+            'toc': toc_url,
+            'resources': resources_url,
+            'tools': tools_dicts}
 
 
 def attachments(request):
     attachments_url = route_url("attachments", request, **request.matchdict)
     identifier = request.matchdict["id"]
     client = Client(identifier)
+    resources_url = route_url('resources', request, **request.matchdict)
+    toc_url = route_url('toc', request, **request.matchdict)
     return {'project': 'mobileyutzu',
+            'resources': resources_url,
+            'toc': toc_url,
             'title': client.entity()["title"],
             'subtitle': identifier,
             'tool': "attachments",
@@ -92,7 +102,11 @@ def attachments(request):
 def links(request):
     identifier = request.matchdict["id"]
     client = Client(identifier)
+    resources_url = route_url('resources', request, **request.matchdict)
+    toc_url = route_url('toc', request, **request.matchdict)
     return {'project': 'mobileyutzu',
+            'resources': resources_url,
+            'toc': toc_url,
             'title': client.entity()["title"],
             'subtitle': identifier,
             'tool': "links",
@@ -102,7 +116,11 @@ def links(request):
 def pictures(request):
     identifier = request.matchdict["id"]
     client = Client(identifier)
+    resources_url = route_url('resources', request, **request.matchdict)
+    toc_url = route_url('toc', request, **request.matchdict)
     return {'project': 'mobileyutzu',
+            'resources': resources_url,
+            'toc': toc_url,
             'title': client.entity()["title"],
             'subtitle': identifier,
             'tool': "pictures",
@@ -113,7 +131,11 @@ def pictures(request):
 def ypad(request):
     identifier = request.matchdict["id"]
     client = Client(identifier)
+    resources_url = route_url('resources', request, **request.matchdict)
+    toc_url = route_url('toc', request, **request.matchdict)
     return {'project': 'mobileyutzu',
+            'resources': resources_url,
+            'toc': toc_url,
             'title': client.entity()["title"],
             'subtitle': identifier,
             'tool': "ypad",
@@ -125,7 +147,11 @@ def social(request):
     identifier = request.matchdict["id"]
     client = Client(identifier)
     social_objects = client.social()
+    resources_url = route_url('resources', request, **request.matchdict)
+    toc_url = route_url('toc', request, **request.matchdict)
     return {'project': 'mobileyutzu',
+            'resources': resources_url,
+            'toc': toc_url,
             'title': client.entity()["title"],
             'subtitle': identifier,
             'tool': "social",
@@ -135,7 +161,11 @@ def social(request):
 def slides(request):
     identifier = request.matchdict["id"]
     client = Client(identifier)
+    resources_url = route_url('resources', request, **request.matchdict)
+    toc_url = route_url('toc', request, **request.matchdict)
     return {'project': 'mobileyutzu',
+            'resources': resources_url,
+            'toc': toc_url,
             'title': client.entity()["title"],
             'subtitle': identifier,
             'tool': "slides",
@@ -145,7 +175,11 @@ def slides(request):
 def videos(request):
     identifier = request.matchdict["id"]
     client = Client(identifier)
+    resources_url = route_url('resources', request, **request.matchdict)
+    toc_url = route_url('toc', request, **request.matchdict)
     return {'project': 'mobileyutzu',
+            'resources': resources_url,
+            'toc': toc_url,
             'title': client.entity()["title"],
             'subtitle': identifier,
             'tool': "videos",

@@ -14,10 +14,14 @@
         {% endfor %}
     {% endfor %}
 {% elif tool == "pictures" %}
-    {% for object in document.objects %}
-        {% for image in object.images_object %}
-            {{ image }}
-        {% endfor %}
+    {% for image in document.objects %}
+        <div>
+            <a href="{{ image.src }}"><img src="{{ image.thumbnail_src }}"></a><br/>
+            <span>
+                <strong>{{ image.title }}</strong>{% if image.license %} ({{ image.license }}){% endif %}.</br>
+                Attached by <a href="{{ image.user_link }}">{{ image.user_name }}</a>.
+            <span>
+        </div></p><p>
     {% endfor %}
 {% elif tool == "social" %}
     {% for object in document.objects %}

@@ -52,7 +52,18 @@ class Client(object):
         return self._get(self._links % (identifier or self.identifier))
 
     def pictures(self, identifier=None):
-        return self._get(self._pictures % (identifier or self.identifier))
+        response = self._get(self._pictures % (identifier or self.identifier))
+        pictures_items = {"objects": []}
+        if "objects" in response and response["objects"]:
+            for obj in response["objects"]:
+                images_object = json.loads(obj["images_object"])
+                for image in images_object:
+                    for attr in ["src", "thumbnail_src"]:
+                        if (attr in image
+                            and not image[attr].startswith(PROVIDER_URL)):
+                            image[attr] = u"%s%s" % (PROVIDER_URL, image[attr])
+                    pictures_items["objects"].append(image)
+        return pictures_items
 
     def ypad(self, identifier=None):
         return self._get(self._ypad % (identifier or self.identifier))
