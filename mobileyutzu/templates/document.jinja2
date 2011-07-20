@@ -2,21 +2,19 @@
 
 {% block subtitle %}
     {% if tool %}
-        <a href="/{{ subtitle }}/" class="home">Home</a> | 
+        <a href="/{{ subtitle }}/" class="home">Home</a>
     {% else %}
-        <a href="/" class="home">Search</a> | 
+        <a href="/" class="home">Search</a>
     {% endif %}
     {#
     {% if back_url %}
-        <a href="{{ back_url }}">← Back to search</a> | 
+        <a href="{{ back_url }}">← Back to search</a>
     {% endif %}
     #}
-        {{ subtitle }}
-    {% if tool %}
-        | {{ tool|capitalize }}
-    {% else %}
-        | Description
-    {% endif %}
+    {% for tooln in tools %}
+        | <a href="{{ tooln.url }}">
+            <img class="toolImage{% if tool|lower == tooln.label|lower %}Selected{% elif not tool or tool|lower == 'description'%}Selected{% endif %}" src="{{ request.static_url('mobileyutzu:static/img/%s.png' % tooln.label.lower()) }}" title="{{ tooln.label|capitalize }}" alt="{{ tooln.label|capitalize }}"></a>
+    {% endfor %}
 {% endblock %}
 
 {% block content %}

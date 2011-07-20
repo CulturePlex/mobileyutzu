@@ -45,33 +45,61 @@ class Client(object):
     def entity(self, identifier=None):
         return self._get(self._entity % (identifier or self.identifier))
 
+    def description(self, identifier=None):
+        return self._get(self._entity % (identifier or self.identifier))
+
     def attachments(self, identifier=None):
-        return self._get(self._attachments % (identifier or self.identifier))
+        response = self._get(self._attachments % (identifier or self.identifier))
+#        attachments_items = {"objects": []}
+#        if response and "objects" in response and response["objects"]:
+#            for obj in response["objects"]:
+#                attachments_object = json.loads(obj["links"])
+#                for attachment in attachments_object:
+#                    attachments_items["objects"].append(json.loads(attachment))
+        return response
+
 
     def links(self, identifier=None):
-        return self._get(self._links % (identifier or self.identifier))
+        response = self._get(self._links % (identifier or self.identifier))
+        links_items = {"objects": []}
+#        if response and "objects" in response and response["objects"]:
+#            for obj in response["objects"]:
+#                links_object = json.loads(obj["links"])
+#                for link in links_object:
+#                    links_items["objects"].append(json.loads(link))
+        return response
+
 
     def pictures(self, identifier=None):
         response = self._get(self._pictures % (identifier or self.identifier))
         pictures_items = {"objects": []}
-        if "objects" in response and response["objects"]:
+        if response and "objects" in response and response["objects"]:
             for obj in response["objects"]:
                 images_object = json.loads(obj["images_object"])
                 for image in images_object:
                     for attr in ["src", "thumbnail_src"]:
                         if (attr in image
-                            and not image[attr].startswith(PROVIDER_URL)):
+                            and not image[attr].startswith(PROVIDER_URL)
+                            and not image[attr].startswith("http://")
+                            and not image[attr].startswith("https://")):
                             image[attr] = u"%s%s" % (PROVIDER_URL, image[attr])
                     pictures_items["objects"].append(image)
         return pictures_items
 
     def ypad(self, identifier=None):
-        return self._get(self._ypad % (identifier or self.identifier))
+        response = self._get(self._ypad % (identifier or self.identifier))
+        ypad_items = {"objects": []}
+        if response and "objects" in response and response["objects"]:
+            for obj in response["objects"]:
+                ypad_object = json.loads(obj["ypad"])
+                ypad_items["objects"].append(ypad_object)
+        return ypad_items
+
 
     def social(self, identifier=None):
         response = self._get(self._social % (identifier or self.identifier))
         social_items = {"objects": []}
-        if "objects" in response and response["objects"]:
+        if response and "objects" in response and response["objects"]:
             for obj in response["objects"]:
                 keyword = obj["keyword"]
                 twitter_messages = self._get(self._twitter % keyword, True)

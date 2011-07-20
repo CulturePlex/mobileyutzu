@@ -344,3 +344,22 @@ p {
 .sidebar-active.sidebar-right .content {
     display: block;
 }
+
+/* Tools */
+a img.toolImage  {
+    padding: 0 2px 0 2px;
+    text-decoration: none;
+    opacity: 0.5;
+}
+
+a img.toolImage:hover {
+    padding: 0 2px 0 2px;
+    text-decoration: none;
+    opacity: 0.75;
+}
+
+a img.toolImageSelected {
+    padding: 0 2px 0 2px;
+    text-decoration: none;
+    opacity: 1;
+}

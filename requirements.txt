@@ -14,7 +14,7 @@ html5lib==0.90
 httplib2==0.7.1
 ipdb==0.4
 ipython==0.10.2
--e git+git@github.com:CulturePlex/mobileyutzu.git@e6eb065c0011f0d0665001e758662a684afd9ca2#egg=mobileyutzu-0.0-py2.6-dev
+-e git+git@github.com:CulturePlex/mobileyutzu.git@d2e31394194a9189559a2cd17c20ced0189bd59b#egg=mobileyutzu-0.0-py2.6-dev
 ordereddict==1.1
 pyramid==1.0
 pyramid-jinja2==1.0

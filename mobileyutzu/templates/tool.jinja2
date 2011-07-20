@@ -51,15 +51,17 @@
     {% endfor %}
 {% elif tool == "ypad" %}
     {% for object in document.objects %}
-        {{ object }}
-        {% for ypad in object.ypad %}
+        {% for ypad in object %}
             <div>
                 <a href="{{ ypad.link }}">
                     <span>
                         {{ ypad.name }}
                     <span>
                 </a>
-            </div></p><p>
+            </div>
+            </p><p>
+                {{ ypad.data|safe }}
+            </p><p>
         {% endfor %}
     {% endfor %}
 {% elif tool == "slides" %}
